@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment & secrets
+.env
+.env.local
+
+# Runtime data (never commit backups, staging files, or SQLite DBs)
+data/
+*.db
+*.db-shm
+*.db-wal
+*.part
+*.blob
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Captures & logs
+*.pcap
+*.pcapng
+*.log
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
