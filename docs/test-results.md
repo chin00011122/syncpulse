@@ -76,10 +76,10 @@ Executed two independent OS processes (`python -m backend.worker` and `uvicorn b
 
 ---
 
-## 4. Manual Verification Checklist (User Hardware Required)
+## 4. Manual Verification Checklist (Physical Device & Packet Capture)
 
-| Test ID | Verification Item | Status | How to Verify |
+| Test ID | Verification Item | Status | Observed Result / How to Verify |
 |---|---|---|---|
-| MAN-01 | iPhone Safari LAN access (`http://<laptop-ip>:8000`) | PENDING (Manual) | Run `scripts\run-worker.ps1` and `scripts\run-api.ps1`, open printed LAN URL on iPhone Safari on same Wi-Fi |
-| MAN-02 | iPhone Safari photo/document upload → VERIFIED → Download | PENDING (Manual) | Select a photo in File Backup tab, confirm two-stage progress, verify SHA-256 match, download file |
-| MAN-03 | Wireshark loopback capture (`tcp.port == 9101` & `udp.port == 9102`) | PENDING (Manual) | Open Wireshark on `Adapter for loopback traffic capture` (Npcap), apply filter `tcp.port == 9101 or udp.port == 9102`, upload a file and observe TCP 3-way handshake, framed payload/ACK, and 1s UDP heartbeats |
+| MAN-01 | iPhone Safari LAN access (`http://<laptop-ip>:8000`) | PASS (Manual, 2026-11-20) | Connected over local Wi-Fi; dashboard displayed live UDP `HEALTHY` (`seq #476`, interval `1014.64 ms`) and host resource telemetry |
+| MAN-02 | iPhone Safari photo/document upload → VERIFIED → Download | PASS (Manual, 2026-11-20) | Uploaded `IMG_5183.png` (184.71 KB) and `IMG_5185.png` (252.73 KB) from iPhone Safari; both completed `VERIFIED` with SHA-256 match (TCP `3.505–4.75 MB/s`) and downloaded cleanly |
+| MAN-03 | Wireshark loopback capture (`tcp.port == 9101` & `udp.port == 9102`) | PENDING (Optional) | Open Wireshark on `Adapter for loopback traffic capture` (Npcap), apply filter `tcp.port == 9101 or udp.port == 9102`, upload a file and observe TCP 3-way handshake, framed payload/ACK, and 1s UDP heartbeats |
