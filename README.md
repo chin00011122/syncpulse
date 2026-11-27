@@ -91,43 +91,73 @@ Detailed design docs:
 
 ---
 
-## 6. Setup & Execution (Windows)
+## 6. Setup & Execution (Windows / macOS / Linux)
 
 ### Prerequisites
 - Python 3.12+
 - Node.js 20+ & npm
 - Git
 
-### 1. Install Backend Dependencies
-```powershell
+### 0. Clone Repository
+```bash
+git clone https://github.com/chin00011122/syncpulse.git
 cd syncpulse
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 ```
 
-### 2. Build Frontend Production Bundle
+### Option A — Windows (PowerShell)
+
+**1. Install Backend Dependencies & Build Frontend**
 ```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+
 cd frontend
 npm install
 npm run build
 cd ..
 ```
 
-### 3. Run SyncPulse (Two Independent Processes)
+**2. Run SyncPulse (Two Independent Terminals)**
 
-**Terminal 1 — Start Backup Worker (Process B):**
+Terminal 1 — Backup Worker (Process B):
 ```powershell
 .\scripts\run-worker.ps1
 ```
-
-**Terminal 2 — Start API & Web Server (Process A):**
+Terminal 2 — API & Web Server (Process A):
 ```powershell
 .\scripts\run-api.ps1
 ```
 
-### 4. Access from Windows & iPhone Safari
-- **Windows Browser:** `http://127.0.0.1:8000`
-- **iPhone Safari (same private Wi-Fi):** Open the `http://<your-laptop-ip>:8000` URL printed by `run-api.ps1` (or find IPv4 via `ipconfig`).
+### Option B — macOS / Linux (bash / zsh)
+
+**1. Install Backend Dependencies & Build Frontend**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+
+cd frontend
+npm install
+npm run build
+cd ..
+```
+
+**2. Run SyncPulse (Two Independent Terminals)**
+
+Terminal 1 — Backup Worker (Process B):
+```bash
+source .venv/bin/activate
+python -m backend.worker
+```
+Terminal 2 — API & Web Server (Process A):
+```bash
+source .venv/bin/activate
+uvicorn backend.app:app --host 0.0.0.0 --port 8000
+```
+
+### 3. Open in Browser
+- **Local Machine:** `http://127.0.0.1:8000`
+- **iPhone Safari (same private Wi-Fi):** Open `http://<your-laptop-ip>:8000` (printed by `run-api.ps1` on Windows, or check local IPv4 via `ipconfig` / `ifconfig`).
 
 If iPhone cannot connect, check Windows Defender Firewall for private-network TCP port `8000` and Wi-Fi AP isolation (see [docs/troubleshooting.md](docs/troubleshooting.md)).
 
